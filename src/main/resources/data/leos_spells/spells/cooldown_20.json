@@ -1,0 +1,5 @@
+{
+    "type": "leos_spells:cooldown_reduction",
+    "cooldownReduction": 0.20,
+    "sprite": "leos_spells:textures/spell/sprites/cooldown_20.png"
+}

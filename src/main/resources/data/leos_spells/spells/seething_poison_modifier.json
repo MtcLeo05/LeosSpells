@@ -1,0 +1,6 @@
+{
+    "type": "leos_spells:example_spell",
+    "amplifier": 1,
+    "duration": 40,
+    "sprite": "leos_spells:textures/spell/sprites/poison.png"
+}

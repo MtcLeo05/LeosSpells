@@ -1,0 +1,15 @@
+{
+    "required": true,
+    "minVersion": "0.8",
+    "package": "com.leo.leos_spells.mixin",
+    "compatibilityLevel": "JAVA_8",
+    "refmap": "leos_spells.refmap.json",
+    "mixins": [
+    ],
+    "client": [
+        "AbstractContainerScreenMixin"
+    ],
+    "injectors": {
+        "defaultRequire": 1
+    }
+}

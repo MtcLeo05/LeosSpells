@@ -1,0 +1,5 @@
+{
+    "type": "leos_spells:max_mana",
+    "increase": 25,
+    "sprite": "leos_spells:textures/spell/sprites/max_mana_25.png"
+}
