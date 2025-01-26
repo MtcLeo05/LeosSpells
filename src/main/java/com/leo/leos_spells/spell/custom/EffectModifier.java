@@ -97,12 +97,12 @@ public class EffectModifier extends SpellType {
         int interval = 2;
         if (!(self instanceof LivingEntity entity)) return;
 
-        if(self.tickCount % (interval) == 0) {
         if (entity.tickCount % (interval) == 0) {
             level.sendParticles(
                 effect.value().createParticleOptions(new MobEffectInstance(effect, duration, amplifier)),
                 entity.getX(),
                 entity.getY(),
+                entity.getZ(),
                 random.nextIntBetweenInclusive(2, 3),
                 randomX,
                 randomY,
@@ -112,7 +112,6 @@ public class EffectModifier extends SpellType {
         }
     }
 
-    private final MobEffectInstance effectInstance;
     @Override
     public void entityHit(ServerPlayer player, ItemStack wand, LivingEntity entity, SpellBaseEntity self) {
         MobEffectInstance existingEffect = entity.getEffect(effect);
@@ -120,6 +119,9 @@ public class EffectModifier extends SpellType {
         if (existingEffect != null) {
             entity.removeEffect(effect);
         }
+
+        if (stackEffect) {
+            entity.addEffect(new MobEffectInstance(
                 effect,
                 duration + (existingEffect != null ? existingEffect.getDuration() : 0),
                 amplifier + (existingEffect != null ? existingEffect.getAmplifier() : 0)
