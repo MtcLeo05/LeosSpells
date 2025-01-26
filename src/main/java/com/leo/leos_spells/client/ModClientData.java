@@ -7,10 +7,9 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class ModClientData {
-
-    public static final Map<ResourceLocation, ResourceLocation> spriteCache = new HashMap<>();
+    public static final Map<ResourceLocation, ClientSpellData> clientCache = new HashMap<>();
 
     static {
-        spriteCache.put(ResourceLocation.withDefaultNamespace("empty"), ResourceLocation.fromNamespaceAndPath(LeosSpells.MODID, "textures/spell/sprites/empty.png"));
+        clientCache.put(ResourceLocation.withDefaultNamespace("empty"), new ClientSpellData(ResourceLocation.fromNamespaceAndPath(LeosSpells.MODID, "textures/spell/sprites/empty.png"), -1));
     }
 }

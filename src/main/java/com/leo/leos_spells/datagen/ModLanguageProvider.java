@@ -27,6 +27,7 @@ public class ModLanguageProvider extends LanguageProvider {
         this.add(LeosSpells.MODID + ".cooldown_20", "Cooldown Reduction 20%");
         this.add(LeosSpells.MODID + ".fire_modifier", "Fire Modifier");
         this.add(LeosSpells.MODID + ".poison_modifier", "Poison Modifier");
+        this.add(LeosSpells.MODID + ".seething_poison_modifier", "Seething Poison Modifier");
         this.add(LeosSpells.MODID + ".max_mana_25", "Max Mana Increase: +25");
 
         this.add("gui." + LeosSpells.MODID + ".wand", "Wand Editing");

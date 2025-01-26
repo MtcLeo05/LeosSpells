@@ -43,13 +43,7 @@ public record WandProperties(int cooldown, float mana, float maxMana, float mana
     }
 
     public WandProperties addMaxMana(float maxMana) {
-        return new WandProperties(
-            cooldown,
-            mana,
-            this.maxMana + maxMana,
-            manaRegen,
-            slotCount
-        );
+        return withMaxMana(this.maxMana + maxMana);
     }
 
     public WandProperties removeMaxMana(float maxMana) {
@@ -67,6 +61,46 @@ public record WandProperties(int cooldown, float mana, float maxMana, float mana
         return new WandProperties(
             cooldown,
             Math.max(this.mana - mana, 0),
+            maxMana,
+            manaRegen,
+            slotCount
+        );
+    }
+
+    public WandProperties withCooldown(int cd) {
+        return new WandProperties(
+            cd,
+            mana,
+            maxMana,
+            manaRegen,
+            slotCount
+        );
+    }
+
+    public WandProperties withMaxMana(float maxMana) {
+        return new WandProperties(
+            cooldown,
+            mana,
+            maxMana,
+            manaRegen,
+            slotCount
+        );
+    }
+
+    public WandProperties withManaRegen(float regen) {
+        return new WandProperties(
+            cooldown,
+            mana,
+            maxMana,
+            regen,
+            slotCount
+        );
+    }
+
+    public WandProperties withSlotCount(int slotCount) {
+        return new WandProperties(
+            cooldown,
+            mana,
             maxMana,
             manaRegen,
             slotCount

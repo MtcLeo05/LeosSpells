@@ -1,6 +1,9 @@
 {
-    "type": "leos_spells:example_spell",
+    "type": "leos_spells:effect_modifier",
+    "effect": "minecraft:poison",
     "amplifier": 1,
     "duration": 40,
-    "sprite": "leos_spells:textures/spell/sprites/poison.png"
+    "sprite": "leos_spells:textures/spell/sprites/poison.png",
+    "cloud": false,
+    "stack_effect": true
 }

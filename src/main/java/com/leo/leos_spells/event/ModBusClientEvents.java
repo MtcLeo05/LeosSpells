@@ -1,6 +1,7 @@
 package com.leo.leos_spells.event;
 
 import com.leo.leos_spells.LeosSpells;
+import com.leo.leos_spells.client.ModClientData;
 import com.leo.leos_spells.client.entity.model.SpellBaseModel;
 import com.leo.leos_spells.client.entity.render.SpellBaseRender;
 import com.leo.leos_spells.client.screen.WandScreen;
@@ -9,6 +10,7 @@ import com.leo.leos_spells.init.ModDataComponents;
 import com.leo.leos_spells.init.ModEntityTypes;
 import com.leo.leos_spells.init.ModItems;
 import com.leo.leos_spells.init.ModMenuTypes;
+import com.leo.leos_spells.spell.SpellHolder;
 import com.leo.leos_spells.spell.WandProperties;
 import net.minecraft.client.renderer.item.ItemProperties;
 import net.minecraft.resources.ResourceLocation;
@@ -18,8 +20,10 @@ import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.fml.event.lifecycle.FMLClientSetupEvent;
 import net.neoforged.neoforge.client.event.EntityRenderersEvent;
 import net.neoforged.neoforge.client.event.RegisterClientTooltipComponentFactoriesEvent;
+import net.neoforged.neoforge.client.event.RegisterColorHandlersEvent;
 import net.neoforged.neoforge.client.event.RegisterMenuScreensEvent;
 
+import java.util.List;
 import java.util.Objects;
 
 @EventBusSubscriber(modid = LeosSpells.MODID, bus = EventBusSubscriber.Bus.MOD, value = Dist.CLIENT)
@@ -47,6 +51,24 @@ public class ModBusClientEvents {
 
                 return Objects.requireNonNullElse(wand.get(ModDataComponents.STACK_COOLDOWN), 0) > 0? 1: 0;
             }
+        );
+    }
+
+    @SubscribeEvent
+    public static void registerItemColorHandlers(RegisterColorHandlersEvent.Item event) {
+        event.register(
+            (stack, index) -> {
+                if(index != 1) return -1;
+
+                List<SpellHolder> holders = stack.get(ModDataComponents.SPELL_HOLDER);
+                WandProperties properties = stack.get(ModDataComponents.WAND_PROPERTIES);
+
+                if(properties != null || holders == null || holders.isEmpty()) return -1;
+                if(!ModClientData.clientCache.containsKey(holders.getFirst().spellId())) return -1;
+
+                return ModClientData.clientCache.get(holders.getFirst().spellId()).color();
+            },
+            ModItems.SPELL_SCROLL.get()
         );
     }
 

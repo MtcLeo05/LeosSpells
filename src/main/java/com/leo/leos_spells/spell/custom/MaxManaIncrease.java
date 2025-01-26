@@ -26,7 +26,7 @@ public class MaxManaIncrease extends SpellType {
     private final float increase;
 
     public MaxManaIncrease(float increase, ResourceLocation sprite) {
-        super(0, 0, 0, 0, sprite);
+        super(0xFF00DEF2, 0, 0, 0, sprite);
         this.increase = increase;
     }
 

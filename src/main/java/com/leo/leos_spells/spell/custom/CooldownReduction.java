@@ -29,7 +29,7 @@ public class CooldownReduction extends SpellType {
     }
 
     public CooldownReduction(float multiplier, ResourceLocation sprite) {
-        super(0, 0, 0, 0, sprite);
+        super(0xFFC29B00, 0, 0, 0, sprite);
         this.multiplier = multiplier;
     }
 

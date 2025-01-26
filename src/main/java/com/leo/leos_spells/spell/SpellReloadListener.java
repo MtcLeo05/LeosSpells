@@ -4,6 +4,7 @@ import com.google.common.collect.BiMap;
 import com.google.common.collect.HashBiMap;
 import com.google.gson.Gson;
 import com.google.gson.JsonElement;
+import com.leo.leos_spells.client.ClientSpellData;
 import com.leo.leos_spells.client.ModClientData;
 import com.leo.leos_spells.init.ModSpells;
 import com.mojang.serialization.JsonOps;
@@ -25,7 +26,7 @@ public class SpellReloadListener extends SimpleJsonResourceReloadListener {
     private static SpellReloadListener INSTANCE;
     private BiMap<ResourceLocation, SpellType> spells = HashBiMap.create();
 
-    private Map<ResourceLocation, ResourceLocation> spriteCache = new HashMap<>();
+    private Map<ResourceLocation, ClientSpellData> spriteCache = new HashMap<>();
 
     private SpellReloadListener() {
         super(GSON_INSTANCE, folder);
@@ -53,12 +54,12 @@ public class SpellReloadListener extends SimpleJsonResourceReloadListener {
                 // add spell if parse succeeds
                 .ifPresent(spell -> {
                     partialMap.put(location, spell);
-                    spriteCache.put(location, spell.sprite);
+                    spriteCache.put(location, new ClientSpellData(spell.sprite, spell.color));
                 });
         }
 
         spells = partialMap;
 
-        ModClientData.spriteCache.putAll(spriteCache);
+        ModClientData.clientCache.putAll(spriteCache);
     }
 }

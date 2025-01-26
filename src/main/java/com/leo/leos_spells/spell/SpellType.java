@@ -50,26 +50,30 @@ public abstract class SpellType {
      * @param previousSpell the last casted spell
      * @param nextSpell the next spell to be cast
      */
-    public abstract SpellBaseEntity cast(ItemStack wand, ServerPlayer player, SpellHolder spellHolder, @Nullable SpellBaseEntity previousSpell, @Nullable SpellType nextSpell);
+    public SpellBaseEntity cast(ItemStack wand, ServerPlayer player, SpellHolder spellHolder, @Nullable SpellBaseEntity previousSpell, @Nullable SpellType nextSpell) {
+        return previousSpell;
+    };
 
     /**
      * Called when looping over all spells to collect mana and apply mana cost modifiers
      * @param previousMana the mana collected from all previous spells
      * @param player the caster
      */
-    public abstract float collectMana(float previousMana, ServerPlayer player);
+    public float collectMana(float previousMana, ServerPlayer player) {
+        return previousMana;
+    }
 
     /**
      * Called when a spell is equipped in a wand's slot
      * @param wand the wand item
      */
-    public abstract void onSpellEquip(ItemStack wand);
+    public void onSpellEquip(ItemStack wand){}
 
     /**
      * Called when a spell is removed from a wand's slot
      * @param wand the wand item
      */
-    public abstract void onSpellUnequip(ItemStack wand);
+    public void onSpellUnequip(ItemStack wand){}
 
     /**
      * Called each tick after the spell has been cast
@@ -77,7 +81,7 @@ public abstract class SpellType {
      * @param wand the wand item used to cast
      * @param self the spell entity itself
      */
-    public abstract void onSpellTick(ServerPlayer player, ItemStack wand, SpellBaseEntity self);
+    public void onSpellTick(ServerPlayer player, ItemStack wand, SpellBaseEntity self){}
 
     /**
      * Called when the spell entity hits a LivingEntity
@@ -86,7 +90,7 @@ public abstract class SpellType {
      * @param entity the hit entity
      * @param self the spell entity itself
      */
-    public abstract void entityHit(ServerPlayer player, ItemStack wand, LivingEntity entity, SpellBaseEntity self);
+    public void entityHit(ServerPlayer player, ItemStack wand, LivingEntity entity, SpellBaseEntity self){}
 
     /**
      * Called when the spell entity hits a block that's not air or has fluids
@@ -95,5 +99,5 @@ public abstract class SpellType {
      * @param block the block hit result
      * @param self the spell entity itself
      */
-    public abstract void blockHit(ServerPlayer player, ItemStack wand, BlockHitResult block, SpellBaseEntity self);
+    public void blockHit(ServerPlayer player, ItemStack wand, BlockHitResult block, SpellBaseEntity self){}
 }

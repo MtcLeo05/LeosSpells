@@ -22,13 +22,13 @@ public class AbstractContainerScreenMixin {
         List<SpellHolder> holders = stack.get(ModDataComponents.SPELL_HOLDER);
         WandProperties properties = stack.get(ModDataComponents.WAND_PROPERTIES);
 
-        if(properties != null || holders == null || holders.size() != 1 || !Screen.hasShiftDown() || !ModClientData.spriteCache.containsKey(holders.getFirst().spellId())) {
+        if(properties != null || holders == null || holders.size() != 1 || !Screen.hasShiftDown() || !ModClientData.clientCache.containsKey(holders.getFirst().spellId())) {
             instance.renderItem(stack, x, y, seed);
             return;
         }
 
         instance.blit(
-            ModClientData.spriteCache.get(holders.getFirst().spellId()),
+            ModClientData.clientCache.get(holders.getFirst().spellId()).sprite(),
             x,
             y,
             16,
