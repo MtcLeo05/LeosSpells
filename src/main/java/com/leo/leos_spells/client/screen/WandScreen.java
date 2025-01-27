@@ -45,7 +45,7 @@ public class WandScreen extends AbstractContainerScreen<WandMenu> {
         List<SpellHolder> holders = stack.get(ModDataComponents.SPELL_HOLDER);
         WandProperties properties = stack.get(ModDataComponents.WAND_PROPERTIES);
 
-        if(properties != null || holders == null || !Screen.hasShiftDown() || !ModClientData.clientCache.containsKey(holders.getFirst().spellId())) {
+        if(properties != null || holders == null || holders.isEmpty() || !Screen.hasShiftDown() || !ModClientData.clientCache.containsKey(holders.getFirst().spellId())) {
             super.renderSlotContents(guiGraphics, stack, slot, countString);
             return;
         }
