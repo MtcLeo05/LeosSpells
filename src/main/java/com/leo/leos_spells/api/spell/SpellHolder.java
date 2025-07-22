@@ -42,7 +42,7 @@ public record SpellHolder(ResourceLocation spellId) {
 
     public static final Codec<SpellHolder> CODEC = RecordCodecBuilder.create(inst ->
         inst.group(
-            ResourceLocation.CODEC.fieldOf("spellId").forGetter(SpellHolder::spellId)
+            ResourceLocation.CODEC.fieldOf("spell_id").forGetter(SpellHolder::spellId)
         ).apply(inst, SpellHolder::new)
     );
 

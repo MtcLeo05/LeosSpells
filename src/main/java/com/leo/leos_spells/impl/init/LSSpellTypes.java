@@ -22,7 +22,6 @@ public class LSSpellTypes {
         .create();
 
     public static final DeferredHolder<MapCodec<? extends SpellType>, MapCodec<ManaBolt>> MANA_BOLT = SPELLS.register("mana_bolt", () -> ManaBolt.CODEC);
-    public static final DeferredHolder<MapCodec<? extends SpellType>, MapCodec<CooldownReduction>> COOLDOWN_REDUCTION = SPELLS.register("cooldown_reduction", () -> CooldownReduction.CODEC);
     public static final DeferredHolder<MapCodec<? extends SpellType>, MapCodec<FireModifier>> FIRE_MODIFIER = SPELLS.register("fire_modifier", () -> FireModifier.CODEC);
     public static final DeferredHolder<MapCodec<? extends SpellType>, MapCodec<EffectModifier>> EFFECT_MODIFIER = SPELLS.register("effect_modifier", () -> EffectModifier.CODEC);
     public static final DeferredHolder<MapCodec<? extends SpellType>, MapCodec<MaxManaIncrease>> MAX_MANA = SPELLS.register("max_mana", () -> MaxManaIncrease.CODEC);

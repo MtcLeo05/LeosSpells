@@ -83,11 +83,6 @@ public class WandMenu extends AbstractContainerMenu {
                 }
 
                 @Override
-                public Optional<ItemStack> tryRemove(int count, int decrement, Player player) {
-                    return super.tryRemove(count, decrement, player);
-                }
-
-                @Override
                 public void set(ItemStack scroll) {
                     super.set(scroll);
 

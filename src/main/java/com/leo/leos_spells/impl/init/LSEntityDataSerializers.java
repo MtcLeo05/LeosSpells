@@ -2,6 +2,7 @@ package com.leo.leos_spells.impl.init;
 
 import com.leo.leos_spells.LeosSpells;
 import com.leo.leos_spells.api.spell.SpellHolder;
+import com.leo.leos_spells.util.ExtraEntityData;
 import net.minecraft.network.syncher.EntityDataSerializer;
 import net.neoforged.neoforge.registries.DeferredHolder;
 import net.neoforged.neoforge.registries.DeferredRegister;
@@ -21,5 +22,10 @@ public class LSEntityDataSerializers {
     public static final DeferredHolder<EntityDataSerializer<?>, EntityDataSerializer<List<SpellHolder>>> SPELL_HOLDER_LIST = ENTITY_DATA_SERIALIZERS.register(
         "spell_holder_list",
         () -> SpellHolder.SPELL_HOLDER_LIST
+    );
+
+    public static final DeferredHolder<EntityDataSerializer<?>, EntityDataSerializer<List<Integer>>> INT_LIST = ENTITY_DATA_SERIALIZERS.register(
+        "int_list",
+        () -> ExtraEntityData.INTEGER_LIST
     );
 }

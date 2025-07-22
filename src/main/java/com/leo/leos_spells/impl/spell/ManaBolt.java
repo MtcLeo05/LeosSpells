@@ -53,7 +53,7 @@ public class ManaBolt extends SpellType {
         spell.setYRot(player.getYRot());
 
         spell.shoot(player, this.speed);
-        spell.setColor(this.color);
+        spell.addColor(this.color);
         spell.setOwner(player.getUUID());
         spell.addSpell(spellHolder);
 

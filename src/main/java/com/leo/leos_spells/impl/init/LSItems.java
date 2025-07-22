@@ -13,7 +13,7 @@ public class LSItems {
     public static final DeferredRegister<Item> ITEMS = DeferredRegister.createItems(LeosSpells.MODID);
 
     // Give basic wand with a spell for testing purposes
-    // /give Dev leos_spells:basic_wand[leos_spells:stack_cooldown=0, leos_spells:wand_properties={cooldown:20,mana:0,maxMana:200,manaRegen:2, slotCount:4}, leos_spells:spell_holder=[{spellId:"leos_spells:red_bolt"}, {spellId:"leos_spells:cd_red_70"}]]
+    // /give Dev leos_spells:basic_wand[leos_spells:stack_cooldown=0, leos_spells:wand_properties={baseCooldown:20,mana:0,maxMana:200,manaRegen:2, slotCount:4}, leos_spells:spell_holder=[{spellId:"leos_spells:red_bolt"}, {spellId:"leos_spells:cd_red_70"}]]
     public static final DeferredHolder<Item, Item> BASIC_WAND = ITEMS.register("basic_wand",
         () -> new WandItem(
             new Item.Properties()

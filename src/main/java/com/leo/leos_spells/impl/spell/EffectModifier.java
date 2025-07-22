@@ -65,7 +65,7 @@ public class EffectModifier extends SpellType {
         if (previousSpell == null) return null;
 
         previousSpell.addSpell(spellHolder);
-        previousSpell.setColor(effect.value().getColor());
+        previousSpell.addColor(effect.value().getColor());
         return previousSpell;
     }
 

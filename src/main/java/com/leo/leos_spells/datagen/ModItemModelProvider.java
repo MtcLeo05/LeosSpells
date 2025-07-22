@@ -19,7 +19,7 @@ public class ModItemModelProvider extends ItemModelProvider {
     protected void registerModels() {
         simpleItem(LSItems.BASIC_WAND)
             .override()
-            .predicate(ResourceLocation.fromNamespaceAndPath(LeosSpells.MODID, "cooldown"), 1)
+            .predicate(ResourceLocation.fromNamespaceAndPath(LeosSpells.MODID, "baseCooldown"), 1)
             .model(simpleItemWithCross(LSItems.BASIC_WAND));
 
         withExistingParent(LSItems.SPELL_SCROLL.getId().getPath(), "item/generated")

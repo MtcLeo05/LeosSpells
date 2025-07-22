@@ -74,7 +74,7 @@ public class ClientWandTooltipComponent implements ClientTooltipComponent {
         );
         guiGraphics.drawCenteredString(
             font,
-            Component.translatable("tooltip.leos_spells.wand.cd", properties.cooldown()),
+            Component.translatable("tooltip.leos_spells.wand.cd", properties.baseCooldown()),
             x + 48,
             y + 1 + 30,
             0x00def2

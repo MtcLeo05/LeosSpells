@@ -2,8 +2,10 @@ package com.leo.leos_spells.impl.entity;
 
 import com.leo.leos_spells.api.spell.SpellHolder;
 import com.leo.leos_spells.api.spell.SpellType;
+import com.leo.leos_spells.util.ExtraEntityData;
 import com.leo.leos_spells.util.ListUtil;
 import net.minecraft.nbt.CompoundTag;
+import net.minecraft.nbt.IntTag;
 import net.minecraft.nbt.ListTag;
 import net.minecraft.nbt.Tag;
 import net.minecraft.network.syncher.EntityDataAccessor;
@@ -29,13 +31,17 @@ import java.util.List;
 import java.util.UUID;
 
 public class SpellBaseEntity extends Mob {
-    private static final EntityDataAccessor<Integer> COLOR = SynchedEntityData.defineId(SpellBaseEntity.class, EntityDataSerializers.INT);
+    private static final EntityDataAccessor<List<Integer>> COLORS = SynchedEntityData.defineId(SpellBaseEntity.class, ExtraEntityData.INTEGER_LIST);
+    private static final EntityDataAccessor<Integer> CURRENT_COLOR = SynchedEntityData.defineId(SpellBaseEntity.class, EntityDataSerializers.INT);
+
     private static final EntityDataAccessor<List<SpellHolder>> SPELLS = SynchedEntityData.defineId(SpellBaseEntity.class, SpellHolder.SPELL_HOLDER_LIST);
 
-    private int color = 0;
+    private List<Integer> colors = ListUtil.of();
     private List<SpellHolder> spells = ListUtil.of();
     private UUID owner;
     private Vec3 direction;
+
+    private int currentColor = 0;
 
     public SpellBaseEntity(EntityType<? extends Mob> type, Level level) {
         super(type, level);
@@ -49,7 +55,16 @@ public class SpellBaseEntity extends Mob {
     @Override
     public void tick() {
         super.tick();
+
         if (!(level() instanceof ServerLevel sLevel)) return;
+
+        int colChangeCd = 20 / spells.size();
+
+        if(tickCount % colChangeCd == 0) {
+            if(++currentColor >= spells.size()) currentColor = 0;
+
+            setCurrentColor(currentColor);
+        }
 
         List<SpellType> types = getSpellTypes();
 
@@ -76,24 +91,27 @@ public class SpellBaseEntity extends Mob {
 
     public Vec3 getMovementToShoot(float velocity, double inaccuracy) {
         direction = getForward()
-            .normalize()
-            .add(
-                this.random.triangle(0.0, 0.0172275 * inaccuracy),
-                this.random.triangle(0.0, 0.0172275 * inaccuracy),
-                this.random.triangle(0.0, 0.0172275 * inaccuracy)
-            )
+            .normalize().add(this.random.triangle(0.0, 0.0172275 * inaccuracy), this.random.triangle(0.0, 0.0172275 * inaccuracy), this.random.triangle(0.0, 0.0172275 * inaccuracy))
             .scale(velocity);
 
         return direction;
     }
 
-    public void setColor(int color) {
-        entityData.set(COLOR, color);
-        this.color = color;
+    public void addColor(int color) {
+        List<Integer> colors = ListUtil.mutable(entityData.get(COLORS));
+        if(!colors.contains(color)) colors.add(color);
+
+        entityData.set(COLORS, colors);
+        this.colors = colors;
     }
 
     public int getColor() {
-        return entityData.get(COLOR);
+        return entityData.get(COLORS).get(entityData.get(CURRENT_COLOR));
+    }
+
+    public void setCurrentColor(int currentColor) {
+        entityData.set(CURRENT_COLOR, currentColor);
+        this.currentColor = currentColor;
     }
 
     public void setOwner(UUID owner) {
@@ -134,10 +152,12 @@ public class SpellBaseEntity extends Mob {
 
         List<SpellType> types = getSpellTypes();
 
-        if(sLevel.getPlayerByUUID(owner) instanceof ServerPlayer sPlayer) {
-            for (SpellType spellType : types) {
-                spellType.entityHit(sPlayer, sPlayer.getMainHandItem(), e, this);
-            }
+        if (!(sLevel.getPlayerByUUID(owner) instanceof ServerPlayer sPlayer)) {
+            return;
+        }
+
+        for (SpellType spellType : types) {
+            spellType.entityHit(sPlayer, sPlayer.getMainHandItem(), e, this);
         }
     }
 
@@ -151,10 +171,12 @@ public class SpellBaseEntity extends Mob {
 
         List<SpellType> types = getSpellTypes();
 
-        if(sLevel.getPlayerByUUID(owner) instanceof ServerPlayer sPlayer) {
-            for (SpellType spellType : types) {
-                spellType.blockHit(sPlayer, sPlayer.getMainHandItem(), result, this);
-            }
+        if (!(sLevel.getPlayerByUUID(owner) instanceof ServerPlayer sPlayer)) {
+            return;
+        }
+
+        for (SpellType spellType : types) {
+            spellType.blockHit(sPlayer, sPlayer.getMainHandItem(), result, this);
         }
     }
 
@@ -173,7 +195,6 @@ public class SpellBaseEntity extends Mob {
     @Override
     protected void pushEntities() {
     }
-
 
     @Override
     public boolean canCollideWith(Entity entity) {
@@ -202,7 +223,8 @@ public class SpellBaseEntity extends Mob {
     @Override
     protected void defineSynchedData(SynchedEntityData.Builder builder) {
         super.defineSynchedData(builder);
-        builder.define(COLOR, color);
+        builder.define(COLORS, new ArrayList<>());
+        builder.define(CURRENT_COLOR, 0);
 
         builder.define(SPELLS, new ArrayList<>());
     }
@@ -219,24 +241,34 @@ public class SpellBaseEntity extends Mob {
     @Override
     public void addAdditionalSaveData(CompoundTag compound) {
         super.addAdditionalSaveData(compound);
-        compound.putInt("color", color);
+
+        compound.putInt("currentColor", currentColor);
         if (owner != null) compound.putUUID("owner", owner);
 
-        ListTag tag = new ListTag();
+        ListTag spellTag = new ListTag();
 
         for (SpellHolder spell : getSpells()) {
-            tag.add(spell.serialize());
+            spellTag.add(spell.serialize());
         }
 
-        compound.put("spells", tag);
+        compound.put("spells", spellTag);
+
+        ListTag colTag = new ListTag();
+
+        for (Integer color : colors) {
+            colTag.add(IntTag.valueOf(color));
+        }
+
+        compound.put("colors", colTag);
     }
 
     @Override
     public void readAdditionalSaveData(CompoundTag compound) {
         super.readAdditionalSaveData(compound);
 
-        if (compound.contains("color")) color = compound.getInt("color");
+        if (compound.contains("currentColor")) currentColor = compound.getInt("currentColor");
         if (compound.contains("owner")) owner = compound.getUUID("owner");
+
         if (compound.contains("spells")) {
             ListTag tag = ((ListTag) compound.get("spells"));
 
@@ -244,6 +276,14 @@ public class SpellBaseEntity extends Mob {
             for (Tag spellTag : tag) {
                 SpellHolder holder = SpellHolder.deserialize((CompoundTag) spellTag);
                 spells.add(holder);
+            }
+        }
+
+        if(compound.contains("colors")) {
+            ListTag tag = ((ListTag) compound.get("colors"));
+
+            for (Tag t : tag) {
+                addColor(((IntTag) t).getAsInt());
             }
         }
     }

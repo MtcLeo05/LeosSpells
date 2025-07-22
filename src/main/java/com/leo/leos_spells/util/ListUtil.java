@@ -19,6 +19,8 @@ public class ListUtil {
      * Converts a List to a List that is surely mutable
      */
     public static <T> List<T> mutable(List<T> list) {
+        if(list == null) return new ArrayList<>();
+
         return new ArrayList<>(list);
     }
 

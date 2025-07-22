@@ -7,20 +7,20 @@ import net.minecraft.network.codec.ByteBufCodecs;
 import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.world.inventory.tooltip.TooltipComponent;
 
-public record WandProperties(int cooldown, float mana, float maxMana, float manaRegen, int slotCount) implements TooltipComponent {
+public record WandProperties(int baseCooldown, float mana, float maxMana, float manaRegen, int slotCount) implements TooltipComponent {
     public static final Codec<WandProperties> CODEC = RecordCodecBuilder.create(
         inst -> inst.group(
-            Codec.INT.fieldOf("cooldown").forGetter(WandProperties::cooldown),
+            Codec.INT.fieldOf("base_cooldown").forGetter(WandProperties::baseCooldown),
             Codec.FLOAT.fieldOf("mana").forGetter(WandProperties::mana),
-            Codec.FLOAT.fieldOf("maxMana").forGetter(WandProperties::maxMana),
-            Codec.FLOAT.fieldOf("manaRegen").forGetter(WandProperties::manaRegen),
-            Codec.INT.fieldOf("slotCount").forGetter(WandProperties::slotCount)
+            Codec.FLOAT.fieldOf("max_mana").forGetter(WandProperties::maxMana),
+            Codec.FLOAT.fieldOf("mana_regen").forGetter(WandProperties::manaRegen),
+            Codec.INT.fieldOf("slot_count").forGetter(WandProperties::slotCount)
         ).apply(inst, WandProperties::new)
     );
 
     public static final StreamCodec<RegistryFriendlyByteBuf, WandProperties> STREAM_CODEC = StreamCodec.composite(
         ByteBufCodecs.INT,
-        WandProperties::cooldown,
+        WandProperties::baseCooldown,
         ByteBufCodecs.FLOAT,
         WandProperties::mana,
         ByteBufCodecs.FLOAT,
@@ -33,13 +33,7 @@ public record WandProperties(int cooldown, float mana, float maxMana, float mana
     );
 
     public WandProperties clampedAddMana(float mana) {
-        return new WandProperties(
-            cooldown,
-            Math.min(this.mana + mana, maxMana),
-            maxMana,
-            manaRegen,
-            slotCount
-        );
+        return new WandProperties(baseCooldown, Math.min(this.mana + mana, maxMana), maxMana, manaRegen, slotCount);
     }
 
     public WandProperties addMaxMana(float maxMana) {
@@ -48,62 +42,22 @@ public record WandProperties(int cooldown, float mana, float maxMana, float mana
 
     public WandProperties removeMaxMana(float maxMana) {
         float newMax = Math.max(this.maxMana - maxMana, 0);
-        return new WandProperties(
-            cooldown,
-            Math.min(mana, newMax),
-            newMax,
-            manaRegen,
-            slotCount
-        );
+        return new WandProperties(baseCooldown, Math.min(mana, newMax), newMax, manaRegen, slotCount);
     }
 
     public WandProperties uncheckedRemoveMana(float mana) {
-        return new WandProperties(
-            cooldown,
-            Math.max(this.mana - mana, 0),
-            maxMana,
-            manaRegen,
-            slotCount
-        );
-    }
-
-    public WandProperties withCooldown(int cd) {
-        return new WandProperties(
-            cd,
-            mana,
-            maxMana,
-            manaRegen,
-            slotCount
-        );
+        return new WandProperties(baseCooldown, Math.max(this.mana - mana, 0), maxMana, manaRegen, slotCount);
     }
 
     public WandProperties withMaxMana(float maxMana) {
-        return new WandProperties(
-            cooldown,
-            mana,
-            maxMana,
-            manaRegen,
-            slotCount
-        );
+        return new WandProperties(baseCooldown, mana, maxMana, manaRegen, slotCount);
     }
 
     public WandProperties withManaRegen(float regen) {
-        return new WandProperties(
-            cooldown,
-            mana,
-            maxMana,
-            regen,
-            slotCount
-        );
+        return new WandProperties(baseCooldown, mana, maxMana, regen, slotCount);
     }
 
     public WandProperties withSlotCount(int slotCount) {
-        return new WandProperties(
-            cooldown,
-            mana,
-            maxMana,
-            manaRegen,
-            slotCount
-        );
+        return new WandProperties(baseCooldown, mana, maxMana, manaRegen, slotCount);
     }
 }

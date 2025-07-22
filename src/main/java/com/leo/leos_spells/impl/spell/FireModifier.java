@@ -51,7 +51,7 @@ public class FireModifier extends SpellType {
         if(previousSpell == null) return null;
 
         previousSpell.addSpell(spellHolder);
-        previousSpell.setColor(color);
+        previousSpell.addColor(color);
         return previousSpell;
     }
 
@@ -83,17 +83,7 @@ public class FireModifier extends SpellType {
         int interval = 2;
 
         if(self.tickCount % (interval) == 0) {
-            level.sendParticles(
-                ParticleTypes.FLAME,
-                self.getX(),
-                self.getY() ,
-                self.getZ(),
-                random.nextIntBetweenInclusive(2, 3),
-                randomX,
-                randomY,
-                randomZ,
-                0
-            );
+            level.sendParticles(ParticleTypes.FLAME, self.getX(), self.getY(), self.getZ(), random.nextIntBetweenInclusive(2, 3), randomX, randomY, randomZ, 0);
         }
     }
 
@@ -102,7 +92,6 @@ public class FireModifier extends SpellType {
         if(entity.fireImmune()) return;
 
         entity.igniteForSeconds(duration);
-
         entity.hurt(player.serverLevel().damageSources().inFire(), this.fireDamage);
     }
 

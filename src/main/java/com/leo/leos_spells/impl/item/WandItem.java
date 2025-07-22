@@ -88,16 +88,15 @@ public class WandItem extends Item implements MenuProvider {
 
         if(!(player instanceof ServerPlayer sPlayer)) return InteractionResultHolder.sidedSuccess(wand, level.isClientSide);
 
-        if(!WandItem.hasNecessaryComponent(wand)) {
-            return InteractionResultHolder.fail(wand);
-        }
+        if(!WandItem.hasNecessaryComponent(wand)) return InteractionResultHolder.fail(wand);
 
-        if(wand.get(LSDataComponents.STACK_COOLDOWN) > 0) {
-            return InteractionResultHolder.fail(wand);
-        }
+        if(wand.get(LSDataComponents.STACK_COOLDOWN) > 0) return InteractionResultHolder.fail(wand);
+
 
         List<SpellHolder> spells = ListUtil.mutable(wand.get(LSDataComponents.SPELL_HOLDER));
         List<SpellType> toCast = collectSpells(spells, wand);
+
+        if(toCast.isEmpty()) return InteractionResultHolder.fail(wand);
 
         float cost = 0;
         for (SpellType spell : toCast) {
@@ -112,7 +111,7 @@ public class WandItem extends Item implements MenuProvider {
 
         wandProperties = wandProperties.uncheckedRemoveMana(cost);
 
-        wand.set(LSDataComponents.STACK_COOLDOWN, wandProperties.cooldown());
+        wand.set(LSDataComponents.STACK_COOLDOWN, wandProperties.baseCooldown());
         wand.set(LSDataComponents.SPELL_HOLDER, spells);
         wand.set(LSDataComponents.WAND_PROPERTIES, wandProperties);
 
