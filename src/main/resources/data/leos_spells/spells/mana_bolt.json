@@ -3,6 +3,6 @@
     "color": 4278247154,
     "damage": 4,
     "speed": 4,
-    "manaCost": 20,
+    "mana_cost": 20,
     "sprite": "leos_spells:textures/spell/sprites/mana_bolt.png"
 }

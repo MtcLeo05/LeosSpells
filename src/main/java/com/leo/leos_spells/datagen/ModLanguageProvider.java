@@ -1,7 +1,7 @@
 package com.leo.leos_spells.datagen;
 
 import com.leo.leos_spells.LeosSpells;
-import com.leo.leos_spells.init.ModItems;
+import com.leo.leos_spells.impl.init.LSItems;
 import net.minecraft.data.PackOutput;
 import net.neoforged.neoforge.common.data.LanguageProvider;
 
@@ -15,8 +15,8 @@ public class ModLanguageProvider extends LanguageProvider {
     protected void addTranslations() {
         this.add(LeosSpells.MODID + ".itemGroup.items", "Leo's Spells");
 
-        this.add(ModItems.BASIC_WAND.get(), "Basic Wand");
-        this.add(ModItems.SPELL_SCROLL.get(), "Spell Scroll");
+        this.add(LSItems.BASIC_WAND.get(), "Basic Wand");
+        this.add(LSItems.SPELL_SCROLL.get(), "Spell Scroll");
 
         this.add("tooltip." + LeosSpells.MODID + ".wand.shiftInfo", "---Press shift for Spell info---");
         this.add("tooltip." + LeosSpells.MODID + ".wand.emptySpells", "No spells inserted!");

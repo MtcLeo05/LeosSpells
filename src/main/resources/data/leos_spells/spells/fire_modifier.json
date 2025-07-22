@@ -1,6 +1,6 @@
 {
     "type": "leos_spells:fire_modifier",
-    "fireDamage": 2,
+    "fire_damage": 2,
     "duration": 5.0,
     "sprite": "leos_spells:textures/spell/sprites/fire.png",
     "persistent": true

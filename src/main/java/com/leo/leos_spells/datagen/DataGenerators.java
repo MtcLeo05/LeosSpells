@@ -11,7 +11,7 @@ import net.neoforged.neoforge.data.event.GatherDataEvent;
 
 import java.util.concurrent.CompletableFuture;
 
-@EventBusSubscriber(modid = LeosSpells.MODID, bus = EventBusSubscriber.Bus.MOD)
+@EventBusSubscriber(modid = LeosSpells.MODID)
 public class DataGenerators {
     @SubscribeEvent
     public static void gatherData(GatherDataEvent event) {
@@ -24,8 +24,6 @@ public class DataGenerators {
         generator.addProvider(event.includeClient(), new ModBlockStateProvider(packOutput, existingFileHelper));
         generator.addProvider(event.includeClient(), new ModItemModelProvider(packOutput, existingFileHelper));
         generator.addProvider(event.includeClient(), new ModRecipeProvider(packOutput, provider));
-
-        generator.addProvider(event.includeClient(), ModLootTableProvider.create(packOutput, provider));
 
         generator.addProvider(event.includeClient(), new ModBlockTagGenerator(packOutput, provider, existingFileHelper));
 

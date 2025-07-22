@@ -1,6 +1,6 @@
 package com.leo.leos_spells;
 
-import com.leo.leos_spells.init.*;
+import com.leo.leos_spells.impl.init.*;
 import com.mojang.logging.LogUtils;
 import net.neoforged.bus.api.IEventBus;
 import net.neoforged.fml.ModContainer;
@@ -18,16 +18,15 @@ public class LeosSpells {
     // The constructor for the mod class is the first code that is run when your mod is loaded.
     // FML will recognize some parameter types like IEventBus or ModContainer and pass them in automatically.
     public LeosSpells(IEventBus modEventBus, ModContainer modContainer) {
-        ModItems.ITEMS.register(modEventBus);
-        ModBlocks.BLOCKS.register(modEventBus);
+        LSItems.ITEMS.register(modEventBus);
 
-        ModDataComponents.DATA_COMPONENTS.register(modEventBus);
-        ModCreativeModeTabs.CREATIVE_MODE_TAB.register(modEventBus);
+        LSDataComponents.DATA_COMPONENTS.register(modEventBus);
+        LSCreativeModeTabs.CREATIVE_MODE_TAB.register(modEventBus);
 
-        ModSpells.SPELLS.register(modEventBus);
-        ModEntityTypes.ENTITY_TYPES.register(modEventBus);
+        LSSpellTypes.SPELLS.register(modEventBus);
+        LSEntityTypes.ENTITY_TYPES.register(modEventBus);
 
-        ModMenuTypes.MENUS.register(modEventBus);
-        ModEntityDataSerializers.ENTITY_DATA_SERIALIZERS.register(modEventBus);
+        LSMenuTypes.MENUS.register(modEventBus);
+        LSEntityDataSerializers.ENTITY_DATA_SERIALIZERS.register(modEventBus);
     }
 }

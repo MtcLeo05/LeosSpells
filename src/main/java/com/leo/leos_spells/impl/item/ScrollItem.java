@@ -1,0 +1,32 @@
+package com.leo.leos_spells.impl.item;
+
+import com.leo.leos_spells.impl.client.ClientSpellData;
+import com.leo.leos_spells.impl.client.ModClientData;
+import com.leo.leos_spells.impl.init.LSDataComponents;
+import com.leo.leos_spells.api.spell.SpellHolder;
+import net.minecraft.network.chat.Component;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.item.ItemStack;
+
+import java.util.List;
+
+public class ScrollItem extends Item {
+    public ScrollItem(Properties properties) {
+        super(properties);
+    }
+
+    @Override
+    public Component getName(ItemStack stack) {
+        if(!stack.has(LSDataComponents.SPELL_HOLDER)) return super.getName(stack);
+
+        List<SpellHolder> spellHolders = stack.get(LSDataComponents.SPELL_HOLDER);
+        if(spellHolders.isEmpty()) return super.getName(stack);
+        ClientSpellData clientData = ModClientData.clientCache.get(spellHolders.getFirst().spellId());
+
+        int c = 0xFFFFFF;
+
+        if(clientData != null) c = clientData.color();
+
+        return super.getName(stack).copy().append(": ").append(Component.translatable(spellHolders.getFirst().spellId().toLanguageKey()).withColor(c));
+    }
+}

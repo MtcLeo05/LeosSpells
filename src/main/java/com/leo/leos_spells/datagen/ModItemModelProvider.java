@@ -1,7 +1,7 @@
 package com.leo.leos_spells.datagen;
 
 import com.leo.leos_spells.LeosSpells;
-import com.leo.leos_spells.init.ModItems;
+import com.leo.leos_spells.impl.init.LSItems;
 import net.minecraft.data.PackOutput;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.Item;
@@ -17,12 +17,12 @@ public class ModItemModelProvider extends ItemModelProvider {
 
     @Override
     protected void registerModels() {
-        simpleItem(ModItems.BASIC_WAND)
+        simpleItem(LSItems.BASIC_WAND)
             .override()
             .predicate(ResourceLocation.fromNamespaceAndPath(LeosSpells.MODID, "cooldown"), 1)
-            .model(simpleItemWithCross(ModItems.BASIC_WAND));
+            .model(simpleItemWithCross(LSItems.BASIC_WAND));
 
-        withExistingParent(ModItems.SPELL_SCROLL.getId().getPath(), "item/generated")
+        withExistingParent(LSItems.SPELL_SCROLL.getId().getPath(), "item/generated")
             .texture("layer0", ResourceLocation.fromNamespaceAndPath(LeosSpells.MODID, "item/scroll_base"))
             .texture("layer1", ResourceLocation.fromNamespaceAndPath(LeosSpells.MODID, "item/scroll_writing"));
     }
